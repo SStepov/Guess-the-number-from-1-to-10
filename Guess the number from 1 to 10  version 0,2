@@ -1,0 +1,142 @@
+using System;
+using System.Text;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            bool isWork = true; // Для того, что бы игра все время крутилась, в случае какой-то херни начиналась заново
+            Console.WriteLine("Добро пожаловать в Угадай число от 1 до 10!\n\n");
+            while (isWork)
+            {
+                Console.WriteLine("Доступные команды:\n" +
+                    "Да - Запустить игру\n" +
+                    "Нет - Не запускать игру/выйти.");
+                bool isOpen = true; // Для повторения уже самой игры в нутри " case "да": "
+                bool isOpenMenu = true; // Для того что бы мы после угадывания числа могли вернуться в меню в случае неправильного ввода
+                Console.Write("Сыграем? ");
+                switch (Console.ReadLine().ToLower())
+                {
+                    case "да":
+                        {
+                            Console.Clear();
+                            while (isOpen)
+                            {
+                                int PlayerValue;
+                                Random rand = new Random();
+                                int value = rand.Next(1, 11);
+                                Console.WriteLine("Генератор загадал число от 1 до 10!");
+                                Console.Write("Ведите это число: ");
+                                PlayerValue = Convert.ToInt32(Console.ReadLine());
+                                if (PlayerValue != value)
+                                {
+                                    while (PlayerValue != value)
+                                    {
+                                        if (PlayerValue == value)
+                                        {
+                                            continue;
+                                        }
+                                        if (PlayerValue < value)
+                                        {
+                                            Console.Clear();
+                                            Console.WriteLine($"Вы ввели: {PlayerValue}");
+                                            Console.WriteLine("Возьмите число болльше.");
+                                            Console.Write("Ведите это число: ");
+                                            PlayerValue = Convert.ToInt32(Console.ReadLine());
+                                            Console.Clear();
+                                        }
+                                        if (PlayerValue > value)
+                                        {
+                                            Console.Clear();
+                                            Console.WriteLine($"Вы ввели: {PlayerValue}");
+                                            Console.WriteLine("Возьмите число меньше.");
+                                            Console.Write("Ведите это число: ");
+                                            PlayerValue = Convert.ToInt32(Console.ReadLine());
+                                            Console.Clear();
+                                        }
+                                    }
+                                }
+                                if (PlayerValue == value)
+                                {
+                                    Console.Clear();
+                                    Console.ForegroundColor = ConsoleColor.Yellow;
+                                    Console.WriteLine($"Вы отгадали число!");
+                                    Console.ResetColor();
+                                    Console.WriteLine($"Генератором загаданое число было: {value}");
+                                    while(isOpenMenu == true)
+                                    {
+                                        Console.WriteLine("Доступные команды:" +
+                                        "\nДа - вернуться в меню." +
+                                        "\nНет - выйти из игры.");
+                                        Console.Write("Вернемся в меню? ");
+                                        switch (Console.ReadLine().ToLower())
+                                        {
+                                            case "да":
+                                                {
+                                                    Console.Clear();
+                                                    isOpenMenu = false;
+                                                    isOpen = false;
+                                                }
+                                                break;
+                                            case "нет":
+                                                {
+                                                    Console.Clear();
+                                                    Console.WriteLine("Рады были вас ведить!\nНадеюсь вы к нам еще зайдете!");
+                                                    Console.ReadKey();
+                                                    Console.Clear();
+                                                    Console.ForegroundColor = ConsoleColor.Red;
+                                                    Console.WriteLine("Нажмите любую клавишу для выхода.");
+                                                    Console.ResetColor();
+                                                    isWork = false; // Прекращает цикл в котором находится 
+                                                    isOpenMenu = false;
+                                                    isOpen = false;
+                                                }
+                                                break;
+                                            default:
+                                                {
+                                                    Console.Clear();
+                                                    Console.ForegroundColor = ConsoleColor.Red;
+                                                    Console.WriteLine("Я вас не понимаю, перепроверьте ваш ввод");
+                                                    Console.ResetColor();
+                                                    Console.ReadKey();
+                                                    Console.Clear();
+                                                }
+                                                break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        break;
+                    case "нет":
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Рады были вас ведить!\nНадеюсь вы к нам еще зайдете!");
+                            Console.ReadKey();
+                            Console.Clear();
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("Нажмите любую клавишу для выхода.");
+                            Console.ResetColor();
+                            isWork = false; // Прекращает цикл в котором находится 
+                            isOpenMenu = false;
+                            isOpen = false;
+                        }
+                        break;
+                    default:
+                        {
+                            Console.Clear();
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("Я вас не понял, проверьте ваш ввод." +
+                                "\nДля того что бы вернуться в начало, нажмите любую клавишу.");
+                            Console.ResetColor();
+                            Console.ReadKey();
+                            Console.Clear();
+                        }
+                    break;
+                }
+            }
+        }
+    }
+}
